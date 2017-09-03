@@ -1,0 +1,7 @@
+package team;
+
+import static org.junit.Assert.*;
+
+public class TeamTest {
+
+}
