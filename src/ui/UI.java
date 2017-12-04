@@ -39,10 +39,10 @@ public class UI {
 
             switch(cmd){
                 case "add event":
-                    event.addEvent(cmd);
+                    addEvent();
                     break;
                 case "add participant":
-                    participant.addParticipant();
+                    addParticipant();
                     break;
                 case "remove participant":
                     participant.removeParticipant();
@@ -69,6 +69,14 @@ public class UI {
                     System.out.println("Unknown command: " + cmd);
             }
         }
+    }
+
+    private void addEvent() {
+
+    }
+
+    private void addParticipant(){
+
     }
 
     public void closeDown(){

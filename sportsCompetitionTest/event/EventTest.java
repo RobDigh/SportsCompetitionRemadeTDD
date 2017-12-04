@@ -1,51 +1,56 @@
 package event;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.*;
 import static org.junit.Assert.*;
 
 public class EventTest {
 
-    Event event = new Event();
+    private Event event = new Event();
+    private List<Event> testEventList  = new ArrayList<>();
+    Event eventLongJump = new Event("Long jump", 1);
+    Event eventHighJump = new Event("High jump", 3);
 
     @Test
     public void testAddOneEventWithOneAttempt(){
-
-
-
-        assertEquals("Long jump", event.addEvent("long jump"));
+        assertEquals(eventLongJump, event.addEvent("Long jump", 1));
     }
 
     @Test
-    public void testAddMultipleEvents(){
+    public void testAddMultipleEventsWithDifferentAttempts(){
 
-        String event1 = event.addEvent("long jump");
-        String event2 = event.addEvent("high jump");
+        testEventList.add(eventLongJump);
+        testEventList.add(eventHighJump);
 
-        List<String> testEventList = new ArrayList<>();
-        testEventList.add(event1);
-        testEventList.add(event2);
-
+        event.addEvent("long jump", 1);
+        event.addEvent("high jump", 3);
         assertEquals((testEventList), event.getEventList());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEventNoName(){
-        event.addEvent("");
+        event.addEvent("", 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEventBlankSpaceName(){
-        event.addEvent(" ");
+        event.addEvent(" ", 1);
     }
 
     @Test
     public void testEventIncorrectNameFormat(){
-        assertEquals("Long jump", event.addEvent("   LoNg JuMp     "));
+        assertEquals(eventLongJump, event.addEvent("   LoNg JuMp     ", 1));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testNotAllowingDuplicatesWithDifferentAttempts(){
+        event.addEvent("Long jump", 1);
+        event.addEvent("Long jump", 2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNotAllowingDuplicatesWithSameAttempts(){
+        event.addEvent("Long jump", 1);
+        event.addEvent("Long jump", 1);
+    }
 }
