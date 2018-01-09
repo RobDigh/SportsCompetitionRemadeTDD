@@ -1,7 +1,8 @@
 // /rodi0231_sisc7379_arho2993
 package participant;
 
-import ui.UI;
+import result.Result;
+//import ui.UI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +14,9 @@ public class Participant {
     private String lastName;
     private String teamName;
     private int id;
-    private List<Participant> participantList = new ArrayList<>();
-    private UI ui = new UI();
+    private List<Result> resultList = new ArrayList<>();
+//    private UI ui = new UI();
+    Participant participant;
 
     public Participant(String firstName, String lastName, String teamName){
         this.firstName = firstName;
@@ -34,35 +36,51 @@ public class Participant {
     public Participant(){
 
     }
+//
+//    public Participant addParticipant(String firstName, String lastName, String teamName){
+//
+////        String fName = ui.normalizer(firstName);
+////        String lName = ui.normalizer(lastName);
+////        String tName = ui.normalizer(teamName);
+//
+//        if (fName.isEmpty() || lName.isEmpty() || tName.isEmpty()){
+//            throw new IllegalArgumentException("Names can't be empty!");
+//        }
+//
+//        Participant participant = new Participant(fName, lName, tName);
+////        participantList.add(participant);
+//        return participant;
+//    }
 
-    public Participant addParticipant(String firstName, String lastName, String teamName){
+//    public List getParticipantList (){
+//        return participantList;
+//    }
+//
+//    public Participant removeParticipant(int id){
+//
+//        participantList.remove(getParticipantById(id));
+//        return participant;
+//    }
 
-        String fName = ui.normalizer(firstName);
-        String lName = ui.normalizer(lastName);
-        String tName = ui.normalizer(teamName);
+//    public Participant getParticipantById(int id){
+//
+//        for (int i=0; i < participantList.size(); i++){
+//            if (participantList.get(i).getId() == id){
+//                return participantList.get(i);
+//            }
+//        }
+//        return null;
+//    }
 
-        if (fName.isEmpty() || lName.isEmpty() || tName.isEmpty()){
-            throw new IllegalArgumentException("Names can't be empty!");
-        }
-
-        Participant participant = new Participant(fName, lName, tName);
-        participantList.add(participant);
-        return participant;
+    public int getId() {
+        return id;
     }
 
-    public List getParticipantList (){
-        return participantList;
-    }
-
-    public boolean removeParticipant(){
-        return true;
-    }
-
-    //For testing
-    public void clearParticipantListAndResetId(){
-        participantList.clear();
-        next_id = 99;
-    }
+//    //For testing
+//    public void clearParticipantListAndResetId(){
+//        participantList.clear();
+//        next_id = 99;
+//    }
 
     @Override
     public String toString(){

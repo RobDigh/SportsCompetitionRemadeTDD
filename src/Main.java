@@ -29,24 +29,27 @@ public class Main {
         System.out.println(" Exit");
     }
 
-    public void runCommandLoop(){
+    public void runCommandLoop() {
         writeMenu();
 
         boolean running = true;
-        while(running){
+        while (running) {
             System.out.println("Command> ");
             String cmd = keyboard.nextLine().toLowerCase();
 
-            switch(cmd){
-                case "add event":
-                    addEvent();
-                    break;
-                case "add participant":
-                    addParticipant();
-                    break;
-                case "remove participant":
-                    removeParticipant();
-                    break;
+            if (cmd.matches("message.+")) {
+                message(cmd);
+            } else {
+                switch (cmd) {
+                    case "add event":
+                        addEvent();
+                        break;
+                    case "add participant":
+                        addParticipant();
+                        break;
+                    case "remove participant":
+                        removeParticipant();
+                        break;
 //                case "add result":
 //                    result.addResult();
 //                    break;
@@ -59,14 +62,15 @@ public class Main {
 //                case "teams":
 //                    result.getResultByTeam();
 //                    break;
-//                case "message":
-//                    sportsCompetition.message(cmd);
-//                    break;
+                    case "message":
+                        message(cmd);
+                        break;
 ////                case "exit":
 ////                    sportsCompetition.exit();
 ////                    break;
-                default:
-                    System.out.println("Unknown command: " + cmd);
+                    default:
+                        System.out.println("Unknown command: " + cmd);
+                }
             }
         }
     }
@@ -127,9 +131,11 @@ public class Main {
     public Participant removeParticipant(){
 
         int id;
-
         System.out.println("Id of participant to be removed: ");
         id = keyboard.nextInt();
+        if (id < 100 ){ //ev whileloop
+            throw new IllegalArgumentException("Id can't be less than 100");
+        }
         participantList.remove(getParticipantById(id));
         return participant;
     }
@@ -169,9 +175,34 @@ public class Main {
         return s;
     }
 
-    public String message(String message){
-        String cmd = message;
-        return cmd;
+    public void message(String message){
+
+        message = message.replaceFirst("message", "");
+
+        if (message.length() > 56) {
+            message = message.substring(0, 56);
+        }
+
+        char fill = ' ';
+
+        String toPad = "#";
+        String specialInLine = new String(new char[toPad.length() + 56 - message.length()]).replace('\0', fill) + toPad;
+        System.out.println("");
+        printSign(60, '#');
+        System.out.println("");
+        System.out.println("#                                                          #");
+        System.out.print("# " + message.toUpperCase());
+        System.out.println(specialInLine);
+        System.out.println("#                                                          #");
+        printSign(60, '#');
+        System.out.println("");
+
+    }
+
+    private void printSign(int ammount, char type){
+        for (int x = 0; x < ammount; x++){
+            System.out.print(type);
+        }
     }
 
     public void exit(){
