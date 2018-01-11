@@ -1,6 +1,7 @@
 // /rodi0231_sisc7379_arho2993
 package participant;
 
+import event.Event;
 import result.Result;
 //import ui.UI;
 import java.util.ArrayList;
@@ -10,19 +11,22 @@ import java.util.Objects;
 public class Participant {
 
     private static int next_id = 99;
+
+
+
     private String firstName;
     private String lastName;
     private String teamName;
     private int id;
-    private List<Result> resultList = new ArrayList<>();
-//    private UI ui = new UI();
-    Participant participant;
+    private List<Result> resultArrayList = new ArrayList<>();
+
 
     public Participant(String firstName, String lastName, String teamName){
         this.firstName = firstName;
         this.lastName = lastName;
         this.teamName = teamName;
         this.id = ++next_id;
+        this.resultArrayList = new ArrayList<>();
     }
 
     //For testing
@@ -33,54 +37,61 @@ public class Participant {
         this.id = id;
     }
 
-    public Participant(){
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public String getTeamName() {
+        return teamName;
+    }
+    public void addResult(Result result){
+        resultArrayList.add(result);
+    }
+
+    public boolean hasRemainingAttempts(Event event){
+        int attemptCounter = 0;
+        for (Result r : resultArrayList){
+            if(r.getParticipant() == this && r.getEvent() == event){
+                ++attemptCounter;
+            }
+            if(attemptCounter >= event.getAttempts()){
+                System.out.println("Attempt limit reached.");
+                return false;
+            }
+
+        }   return true;
+
 
     }
-//
-//    public Participant addParticipant(String firstName, String lastName, String teamName){
-//
-////        String fName = ui.normalizer(firstName);
-////        String lName = ui.normalizer(lastName);
-////        String tName = ui.normalizer(teamName);
-//
-//        if (fName.isEmpty() || lName.isEmpty() || tName.isEmpty()){
-//            throw new IllegalArgumentException("Names can't be empty!");
-//        }
-//
-//        Participant participant = new Participant(fName, lName, tName);
-////        participantList.add(participant);
-//        return participant;
-//    }
 
-//    public List getParticipantList (){
-//        return participantList;
-//    }
-//
-//    public Participant removeParticipant(int id){
-//
-//        participantList.remove(getParticipantById(id));
-//        return participant;
-//    }
+    public void printResults(){
 
-//    public Participant getParticipantById(int id){
-//
-//        for (int i=0; i < participantList.size(); i++){
-//            if (participantList.get(i).getId() == id){
-//                return participantList.get(i);
-//            }
-//        }
-//        return null;
-//    }
+        ArrayList<Event> tempEvent = new ArrayList<>();
+        for (Result r : resultArrayList){
+            if(!tempEvent.contains(r.getEvent())){
+                tempEvent.add(r.getEvent());
+            }
+
+        }
+        for (Event event : tempEvent) {
+            System.out.print("Results for " + getFirstName() + " " + getLastName() + " in "
+                    + event.getEventName() + ": ");
+            for (Result tempResult : resultArrayList) {
+                if (tempResult.getEvent() == event && resultArrayList.size() <= 1) {
+                    System.out.print(tempResult.getScore() + ".");
+                }
+                else if(tempResult.getEvent() == event){
+                    System.out.print(tempResult.getScore() + ", ");
+                }
+            }
+        }
+    }
 
     public int getId() {
         return id;
     }
-
-//    //For testing
-//    public void clearParticipantListAndResetId(){
-//        participantList.clear();
-//        next_id = 99;
-//    }
 
     @Override
     public String toString(){
