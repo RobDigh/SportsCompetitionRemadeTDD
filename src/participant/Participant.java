@@ -66,7 +66,7 @@ public class Participant {
 
     }
 
-    public void printResults(){
+    public void getResultByParticipant(){
 
         ArrayList<Event> tempEvent = new ArrayList<>();
         for (Result r : resultArrayList){

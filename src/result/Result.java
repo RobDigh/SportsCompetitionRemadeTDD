@@ -29,16 +29,6 @@ public class Result implements Comparable<Result> {
         return "Results: " + participant.getFirstName() + participant.getLastName()+ event + score;
     }
 
-    public void addResult(){
-
-
-    }
-
-
-
-    public boolean getResultByParticipant(){
-        return true;
-    }
     @Override
     public int compareTo(Result r) {
         if(r.getScore() > this.getScore()){
@@ -52,11 +42,5 @@ public class Result implements Comparable<Result> {
 
     }
 
-    public boolean getResultByEvent(){
-        return true;
-    }
 
-    public boolean getResultByTeam(){
-        return true;
-    }
 }

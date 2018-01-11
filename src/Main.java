@@ -11,8 +11,8 @@ public class Main {
 
     private Scanner keyboard = new Scanner(System.in);
 
-    List<Participant> participantList = new ArrayList<>();
-    List<Event> eventList = new ArrayList<>();
+    private List<Participant> participantList = new ArrayList<>();
+    private List<Event> eventList = new ArrayList<>();
 
     private void writeMenu(){
         System.out.println("Following commands are possible:");
@@ -27,7 +27,7 @@ public class Main {
         System.out.println(" Exit");
     }
 
-    public void runCommandLoop() {
+    private void runCommandLoop() {
         writeMenu();
 
         boolean running = true;
@@ -86,7 +86,7 @@ public class Main {
     private void getParticipantResult() {
         Participant p = participantControl();
         if(p != null){
-            p.printResults();
+            p.getResultByParticipant();
         }
 
     }
@@ -119,7 +119,7 @@ public class Main {
 
     }
 
-    public Event getEvent (String eventName){
+    private Event getEvent (String eventName){
         boolean found = false;
         for (Event event : eventList){
             if (event.getEventName().equalsIgnoreCase(eventName)){
@@ -146,13 +146,14 @@ public class Main {
         keyboard.nextLine();
         return readDouble;
     }
+
     private String stringRead(String prompt) {
         System.out.println(prompt);
         String s = keyboard.nextLine();
         return normalizer(s);
     }
 
-    public void addEvent(){
+    private void addEvent(){
 
         int attempts;
         String eventName;
@@ -172,7 +173,7 @@ public class Main {
         System.out.println(event.getEventName() + " has been added.");
     }
 
-    public void addParticipant(){
+    private void addParticipant(){
 
         String firstName;
         String lastName;
@@ -231,8 +232,7 @@ public class Main {
         return p;
     }
 
-
-    public String normalizer(String s) {
+    private String normalizer(String s) {
 
         s = s.toLowerCase().trim();
         if (s.isEmpty()){
@@ -249,7 +249,7 @@ public class Main {
         return null;
     }
 
-    public void message(String message){
+    private void message(String message){
 
         message = message.replaceFirst("message", "");
 
@@ -279,12 +279,12 @@ public class Main {
         }
     }
 
-    public void exit(){
+    private void exit(){
         System.out.println("Good bye!");
         System.exit(0);
     }
 
-    public void setUp(){
+    private void setUp(){
         System.out.println("Welcome");
     }
 
