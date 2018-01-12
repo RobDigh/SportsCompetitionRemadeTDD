@@ -39,7 +39,7 @@ public class Main {
                 message(cmd);
             }
             else if (getEvent(cmd) != null){
-                resultEvent(cmd);
+                eventResult(cmd);
             }else {
                 switch (cmd) {
                     case "add event":
@@ -57,12 +57,6 @@ public class Main {
                 case "participant":
                     getParticipantResult();
                     break;
- //              case "result event":
- //                   getResultByEvent();
- //                   break;
-//                case "teams":
-//                    result.getResultByTeam();
-//                    break;
                     case "message":
                         message(cmd);
                         break;
@@ -79,8 +73,32 @@ public class Main {
     private void resultEvent(String cmd) {
         Event e = getEvent(cmd);
         System.out.println("Results for: " + cmd);
-        e.resultEvent();
+        ArrayList<Result> newResults = new ArrayList<>();
+      //  e.resultEvent();
+       // e.printParticipantsBestResults();
+        e.testKlassSkrivaUtResultat();
 
+
+
+    /*    for(Participant p : participantList){
+            if(p.hasResultsInEvent(e)) {
+                newResults.add(p.getParticipantsBestResult(e));
+            }
+        }
+
+        System.out.println(newResults);
+*/
+    }
+
+    private void eventResult(String eventName) {
+        Event event = null;
+        for (Event tempEvent : eventList) {
+            if (eventName.equalsIgnoreCase(tempEvent.getEventName())) {
+                event = tempEvent;
+                break;
+            }
+        }
+        event.getResultForEvent();
     }
 
     private void getParticipantResult() {
@@ -113,21 +131,15 @@ public class Main {
             p.addResult(r);
 
         }
-
-
-
-
     }
 
     private Event getEvent (String eventName){
-        boolean found = false;
         for (Event event : eventList){
             if (event.getEventName().equalsIgnoreCase(eventName)){
-                found = true;
                 return event;
             }
         }
-        if(!eventList.isEmpty()){
+        if(eventList.isEmpty()){
             System.out.println("No event called " + eventName + " found.");
         }
         return null;
@@ -158,9 +170,10 @@ public class Main {
         int attempts;
         String eventName;
 
-        while((eventName = stringRead("Event name: ")) == null){
-            System.out.println("PLACEHOLDER WARNING");
-        }
+        do{
+            eventName = stringRead("Event name: ");
+        }while(eventName == null);
+
         if (getEvent(eventName) != null){
             System.out.println(eventName + " has already been added.");
             return;
@@ -179,21 +192,23 @@ public class Main {
         String lastName;
         String teamName;
 
-        while((firstName = stringRead("First name: ")) == null){
-            System.out.println("PLACEHOLDER WARNING");
+        do{
+            firstName = stringRead("First name: ");
         }
-        while((lastName = stringRead("Last name: ")) == null){
-            System.out.println("PLACEHOLDER WARNING");
+        while(firstName == null);
+        do{
+            lastName = stringRead("Last name: ");
         }
-        while((teamName = stringRead("Team name: ")) == null){
-            System.out.println("PLACEHOLDER WARNING");
+        while(lastName == null);
+        do{
+            teamName = stringRead("Team name: ");
         }
-
+        while(teamName == null);
 
         Participant participant = new Participant(firstName, lastName, teamName);
         participantList.add(participant);
         System.out.println(participant.getFirstName() + " " + participant.getLastName() + " from " + participant.getTeamName()
-        + " has been added.");
+        + " has been added!");
     }
 
     private void removeParticipant(){
@@ -201,6 +216,9 @@ public class Main {
         Participant p = participantControl();
 
         participantList.remove(p);
+        for(Event e : eventList){
+            e.removeResult(p);
+        }
         /*
 
 
@@ -220,7 +238,9 @@ public class Main {
     }
 
     private Participant participantControl() {
+
         int idCheck = intRead("ID: ");
+
         Participant p = null;
         for (Participant temp : participantList) {
             if (temp.getId() == idCheck)
